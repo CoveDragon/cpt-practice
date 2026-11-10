@@ -4,6 +4,7 @@ import math
 import base64
 from datetime import datetime, timedelta, timezone
 from prompt_toolkit import prompt
+import time
 
 files=[]
 username = input("Enter a username: ")
@@ -36,7 +37,7 @@ def list_commands():
 
 def datetimef():
     utc_now = datetime.now(timezone.utc)
-    return utc_now.strftime("%Y-%m-%d %H:%M:%S")
+    return f"UTC: {utc_now.strftime("%Y-%m-%d %H:%M:%S")}"
 
 def sudo_newpswrd(oldpswrd, newpswrd):
     global pswrd
@@ -74,11 +75,19 @@ while foreverloop ==  True:
         print("sudo_renameuser() command")
     elif command == "info":
         print(info())
+    elif command == "powoff":
+        shutoff = input("Shutting down deletes all data forever. Do you wish to continue? y/n: ")
+        if shutoff == "y":
+            print("shutting down...\n")
+            time.sleep(0.25)
+            break
+        else:
+            print("OK, not shutting off.")
     # elif command == "sudo ! !":
         
     elif command == "file_create":
         file_create()
-        chr(len(files)+1) = ""
+        # chr(len(files)+1) = ""
     elif command == "file_edit":
         file_edit()
         print(files)
