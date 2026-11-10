@@ -58,7 +58,7 @@ def sudo_renameuser(pswrd, newuser):
     print("ok")
 
 def info():
-    return f"chiilOS copyright Zack & Jacob co 2026 Voorhees High School, Glen Gardener, NJ.\n\nJacob: File directories.\n\nZackary: system funtionality and misc commands."
+    return f"chiilOS copyright Zack & Jacob co 2026 Voorhees High School, Glen Gardener, NJ.\n\nJacob: File directories.\n\nZackary: system funtionality and misc commands.\n\nchillOS ver. beta 0.3.5"
 
     
 #start OS
