@@ -6,13 +6,16 @@ from datetime import datetime, timedelta, timezone
 from prompt_toolkit import prompt
 import time
 
-files=[]
+file_name=[]
+file_data=[]
 username = input("Enter a username: ")
 pswrd = input("Enter a password: ")
 utc_now = datetime.now(timezone.utc)
 utc_time = utc_now.strftime("%Y-%m-%d %H:%M:%S")
 foreverloop = True
 lastcommand = "False"
+
+# function for password attempts
 
 def pswrd_attempt(attempt):
     global is_pswrdcorrect
@@ -27,15 +30,13 @@ def pswrd_attempt(attempt):
 
 #files here
 
-def file_create():
-    nam=input("File Name: ").lower()
-    files.append(nam)
+def file_create(nam):
+    file_name.append(nam)
+    file_data.append("")
     print("File created")
-def file_edit():
-    titl=input("File name: ").lower()
-    if titl in files:
-        temp=chr((files.index(titl))+1)
-        temp=prompt(default=temp)
+def file_edit(na):
+    if na in file_name:
+        return file_data(file_name.index(na))
     else:
         print("Not a valid file")
 
@@ -53,6 +54,9 @@ def sudo_newpswrd(oldpswrd, newpswrd):
 
     if oldpswrd == pswrd:
         pswrd = newpswrd
+        return "Success!"
+    else:
+        return "Sorry, wrong password."
 
 def sudo_renameuser(pswrd, newuser):
     print("ok")
@@ -80,9 +84,10 @@ while foreverloop ==  True:
         print(datetimef())
     elif "sudo_newpswrd" in command:
        parts = [part.strip() for part in command[14:].split(",")]
-       sudo_newpswrd(parts[0], parts[1][:-1])
+       print(sudo_newpswrd(parts[0], parts[1][:-1]))
     elif "sudo_renameuser" in command:
-        print("sudo_renameuser() command")
+        parts = [part.strip() for part in command[16:].split(",")]
+        print(sudo_renameuser(parts[0], parts[1][:-1]))
     elif command == "info":
         print(info())
     elif command == "powoff":
@@ -101,10 +106,10 @@ while foreverloop ==  True:
             print("command cannot run.")
 
     elif command == "file_create":
-        file_create()
-        # chr(len(files)+1) = ""
+        nam=input("File Name: ").lower()
+        file_create(nam)
     elif command == "file_edit":
-        file_edit()
-        print(files)
+        na=input("File name:")
+        file_data.rprompt(default=file_edit(na))
     else:
         print("Error: command does not exist.")
