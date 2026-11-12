@@ -34,16 +34,17 @@ def file_create(nam):
     file_name.append(nam)
     file_data.append("")
     print("File created")
+
 def file_edit(na):
     if na in file_name:
-        return file_data(file_name.index(na))
+        return file_data[file_name.index(na)]
     else:
         print("Not a valid file")
 
 # misc here
 
 def list_commands():
-    return f"THERE ARE 28 TOTAL COMMANDS.\n\nTYPE: FILES\n\nfile_create(name)\tcreates a new file.\nfile_rename(previousname, newname)\trenames a file.\nsudo_file_delete(name, password)\tdeletes a file.\nfile_edit(name, edits)\tallows you to write to a file.\nfile_read(name)\tallows you to read a file's contents.\nsudo_privatefile_create(name, password)\tcreates a new private file, which requires a password to read and write to.\nsudo_privatefile_rename(previousname, newname, password)\trenames a private file.\nsudo_privatefile_delete(name, password)\tdeletes a private file.\nsudo_privatefile_edit(name, edits, password)\tallows you to write to a private file, but requires a password.\nsudo_privatefile_read(name, password)\tallows you to read a private file's contents, but requires a password to access.\nsudo_wipe(password)\tdeletes all files and data.\ndir\tshows directory with all filenames.\nstor\tShows amount of storage left (x/5 normal files & y/2 private files)\n\nTYPE: MISC\n\nlist_commands\tlists all available commands.\ndatetimef\treturns the date and time.\nsudo_newpswrd(oldpswrd, newpswrd)\tallows you to create a new password.\nsudo_renameuser(newname, password)\tallows the user to rename themselves.\nsudo_last\tprints the previous command.\npowoff\tshuts down the OS.\n\nTYPE: FUNCTIONAL/CALCULATOR\n\nadd(x, y)\tadds 2 numbers\nsub(x, y)\tsubtracts one number from another\nmult(x, y)\tmultiplies 2 numbers.\ndiv(x, y)\tdivides one number by another.\nsqrt(num)\ttakes the square root of a number\nexp(x, power)\tmultiplies a number by itself a set amount of times.\nmod(x, y)\tfinds the remainder of a division equation.\nbase64(input)\tconverts an input to base64 binary.\n"
+    return f"THERE ARE 28 TOTAL COMMANDS.\n\nTYPE: FILES\n\nfile_create\tcreates a new file.\nfile_rename\trenames a file.\nsudo_file_delete\tdeletes a file.\nfile_edit\tallows you to write to a file.\nfile_view\tallows you to read a file's contents.\nsudo_privatefile_create\tcreates a new private file, which requires a password to read and write to.\nsudo_privatefile_rename\trenames a private file.\nsudo_privatefile_delete\tdeletes a private file.\nsudo_privatefile_edit\tallows you to write to a private file, but requires a password.\nsudo_privatefile_view\tallows you to read a private file's contents, but requires a password to access.\nsudo_wipe(password)\tdeletes all files and data.\ndir\tshows directory with all filenames.\nstor\tShows amount of storage left (x/5 normal files & y/2 private files)\n\nTYPE: MISC\n\nlist_commands\tlists all available commands.\ndatetimef\treturns the date and time.\nsudo_newpswrd(oldpswrd, newpswrd)\tallows you to create a new password.\nsudo_renameuser(newname, password)\tallows the user to rename themselves.\nsudo_last\tprints the previous command.\npowoff\tshuts down the OS.\n\nTYPE: FUNCTIONAL/CALCULATOR\n\nadd(x, y)\tadds 2 numbers\nsub(x, y)\tsubtracts one number from another\nmult(x, y)\tmultiplies 2 numbers.\ndiv(x, y)\tdivides one number by another.\nsqrt(num)\ttakes the square root of a number\nexp(x, power)\tmultiplies a number by itself a set amount of times.\nmod(x, y)\tfinds the remainder of a division equation.\nbase64(input)\tconverts an input to base64 binary.\n"
 
 def datetimef():
     utc_now = datetime.now(timezone.utc)
@@ -58,12 +59,22 @@ def sudo_newpswrd(oldpswrd, newpswrd):
     else:
         return "Sorry, wrong password."
 
-def sudo_renameuser(pswrd, newuser):
-    print("ok")
+def sudo_renameuser(pswrdcheck, newuser):
+    global pswrd
+    global username
+    if pswrdcheck == pswrd:
+        username = newuser
+        return f"Password correct.\n\nNew username:\t{username}!"
+    else:
+        return "password incorrect."
 
 def info():
-    return f"chiilOS copyright Zack & Jacob co 2026 Voorhees High School, Glen Gardener, NJ.\n\nJacob: File directories.\n\nZackary: system funtionality and misc commands.\n\nchillOS ver. beta 0.3.5"
+    return f"chiilOS copyright Zack & Jacob co 2026 Voorhees High School, Glen Gardener, NJ.\n\nJacob: File directories.\n\nZackary: system funtionality and misc commands.\n\nchillOS ver. beta 0.6.1"
 
+# calc commands
+
+def add():
+    return "ok"
     
 #start OS
 
@@ -104,12 +115,16 @@ while foreverloop ==  True:
             print(lastcommand)
         else:
             print("command cannot run.")
-
     elif command == "file_create":
         nam=input("File Name: ").lower()
         file_create(nam)
     elif command == "file_edit":
         na=input("File name:")
-        file_data.rprompt(default=file_edit(na))
+        file_data[file_name.index(na)]=prompt(default=file_edit(na))
+    elif command == "file_view":
+        na=input("File name:")
+        print(file_data[file_name.index(na)])
+    elif command == "file_delete":
+        placeholder=67, "YOLO"
     else:
         print("Error: command does not exist.")
